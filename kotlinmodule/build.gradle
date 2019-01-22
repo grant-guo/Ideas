@@ -1,0 +1,31 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+}
+
+group 'grant.guo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+def arrow_version = '0.8.2'
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.arrow-kt:arrow-core:${arrow_version}")
+    implementation("io.arrow-kt:arrow-data:${arrow_version}")
+    implementation("io.arrow-kt:arrow-syntax:${arrow_version}")
+    implementation("io.arrow-kt:arrow-typeclasses:${arrow_version}")
+    kapt    "io.arrow-kt:arrow-meta:${arrow_version}"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

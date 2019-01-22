@@ -1,0 +1,5 @@
+rootProject.name = 'ideas'
+include 'javamodule'
+include 'scalamodule'
+include 'kotlinmodule'
+
