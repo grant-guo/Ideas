@@ -31,8 +31,9 @@ class ModelConverterRegistry(val converters: List[Any]) {
   private def getUpdateEntityFunctions(): Map[Class[_], (Method, Any)] = {
     def accept(method: Method): Boolean = {
       Option(method.getAnnotation(classOf[UpdateEntity])) match {
-        case Some(_) => { method.getParameterCount == 2 &&
-          method.getParameterTypes(0).equals(classOf[Entity])
+        case Some(_) => {
+          method.getParameterCount == 2 &&
+          method.getParameterTypes()(0).equals(classOf[Entity])
           method.getReturnType.equals(classOf[Entity])
         }
         case None => false
@@ -53,7 +54,7 @@ class ModelConverterRegistry(val converters: List[Any]) {
   def toEntity(event: Any): Entity = {
     toEntityFunctions.get(event.getClass) match {
       case Some(tuple) => {
-        tuple._1.invoke(tuple._2, event).asInstanceOf[Entity]
+        tuple._1.invoke(tuple._2, event.asInstanceOf[Object]).asInstanceOf[Entity]
       }
       case None => throw new Exception("")
     }
@@ -62,7 +63,7 @@ class ModelConverterRegistry(val converters: List[Any]) {
   def updateEntity(entity: Entity, event: Any): Entity = {
     updateEntityFunctions.get(event.getClass) match {
       case Some(tuple) => {
-        tuple._1.invoke(tuple._2, entity, event).asInstanceOf[Entity]
+        tuple._1.invoke(tuple._2, entity, event.asInstanceOf[Object]).asInstanceOf[Entity]
       }
       case None => throw new Exception("")
     }

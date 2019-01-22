@@ -15,7 +15,7 @@ import scala.collection.convert.{WrapAsJava, WrapAsScala}
 class SpringConfiguration {
   @Bean(name = Array("env"))
   @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-  @Profile("production")
+  @Profile(Array("production"))
   def getEnv(): Environment = new DefaultJvmEnvironment()
 
 
