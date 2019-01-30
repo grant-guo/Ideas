@@ -3,6 +3,8 @@ package grant.guo.ideas.dsl.number
 
 /**
   *
+  * refer to: https://www.beyondthelines.net/programming/forging-a-dsl-using-type-classes/
+  *
   * 1. We have created some case classes to represent our data
   * 2. We have define a trait with the methods we’d like our case classes to implement
   * 3. We have provided an implementation of the above trait for each of our case classes
