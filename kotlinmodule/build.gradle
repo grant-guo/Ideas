@@ -21,6 +21,16 @@ dependencies {
     implementation("io.arrow-kt:arrow-syntax:${arrow_version}")
     implementation("io.arrow-kt:arrow-typeclasses:${arrow_version}")
     kapt    "io.arrow-kt:arrow-meta:${arrow_version}"
+
+    implementation(
+            'ch.qos.logback:logback-core:1.2.3',
+            'ch.qos.logback:logback-classic:1.2.3',
+            'com.splunk.logging:splunk-library-javalogging:1.6.2',
+            'ch.qos.logback.contrib:logback-json-classic:0.1.5',
+            'ch.qos.logback.contrib:logback-jackson:0.1.5',
+            'com.fasterxml.jackson.core:jackson-databind:2.9.3',
+            "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
+    )
 }
 
 compileKotlin {
