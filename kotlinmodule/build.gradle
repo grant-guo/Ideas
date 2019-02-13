@@ -11,6 +11,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url 'http://splunk.jfrog.io/splunk/ext-releases-local'
+    }
 }
 
 def arrow_version = '0.8.2'

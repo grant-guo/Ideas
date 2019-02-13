@@ -1,5 +1,20 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="grant.guo.ideas.logging.DefaultAppenderEncoder">
+            <pattern>[%level] %date{ISO8601} %msg%n</pattern>
+            <layout class="grant.guo.ideas.logging.LogbackJsonLayout">
+                <!--<logPayloadDataClassname>grant.guo.ideas.logging.SampleLogEntity</logPayloadDataClassname>-->
+                <logPayloadDataClassname>kotlin.collections.HashMap</logPayloadDataClassname>
+                <jsonFormatter
+                        class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                    <prettyPrint>true</prettyPrint>
+                </jsonFormatter>
+                <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+                <appendLineSeparator>true</appendLineSeparator>
+            </layout>
+        </encoder>
+    </appender>
+    <appender name = "AAA" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>[%level] %date{ISO8601} %msg%n</pattern>
         </encoder>
@@ -10,17 +25,17 @@
         <disableCertificateValidation>true</disableCertificateValidation>
         <messageFormat>json</messageFormat>
         <layout class="grant.guo.ideas.logging.LogbackJsonLayout">
-            <logPayloadDataClassname>grant.guo.ideas.logging.SampleLogEntity</logPayloadDataClassname>
-            <logPayloadDataKey>content</logPayloadDataKey>
+            <logPayloadDataClassname>kotlin.collections.HashMap</logPayloadDataClassname>
             <jsonFormatter
                     class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
                 <prettyPrint>true</prettyPrint>
             </jsonFormatter>
             <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+            <appendLineSeparator>true</appendLineSeparator>
         </layout>
     </appender>
     <root level="info">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="SPLUNK" />
+        <appender-ref ref="AAA" />
     </root>
 </configuration>
