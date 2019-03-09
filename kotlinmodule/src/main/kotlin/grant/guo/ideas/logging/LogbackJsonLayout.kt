@@ -18,7 +18,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 class LogbackJsonLayout: JsonLayout() {
 
-    var logPayloadDataClassname: String = ""
+    var logPayloadDataClassname: String = "kotlin.collections.Map"
 
     private val mapper by lazy {
         ObjectMapper().registerKotlinModule()
@@ -27,8 +27,8 @@ class LogbackJsonLayout: JsonLayout() {
     override protected fun addCustomDataToJsonMap(map: MutableMap<String, Any>, event: ILoggingEvent) {
         val message =
             when( logPayloadDataClassname) {
-                "kotlin.collections.HashMap" -> {
-                    val typeRef = object : TypeReference<HashMap<String, String>>() {}
+                "java.util.Map", "kotlin.collections.Map" -> {
+                    val typeRef = object : TypeReference<Map<String, String>>() {}
                     mapper.readValue(event.formattedMessage, typeRef)
                 }
                 else -> {
