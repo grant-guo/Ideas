@@ -1,13 +1,11 @@
 package grant.guo.ideas.logging
 
-import arrow.core.Failure
-import arrow.core.Success
-import arrow.core.Try
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.contrib.json.classic.JsonLayout
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.slf4j.MDC
 
 /**
  * this class is used in logback.xml to format the log message into json format.
@@ -18,37 +16,51 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 class LogbackJsonLayout: JsonLayout() {
 
-    var logPayloadDataClassname: String = "kotlin.collections.Map"
-
     private val mapper by lazy {
         ObjectMapper().registerKotlinModule()
     }
 
     override protected fun addCustomDataToJsonMap(map: MutableMap<String, Any>, event: ILoggingEvent) {
-        val message =
-            when( logPayloadDataClassname) {
-                "java.util.Map", "kotlin.collections.Map" -> {
-                    val typeRef = object : TypeReference<Map<String, String>>() {}
-                    mapper.readValue(event.formattedMessage, typeRef)
-                }
-                else -> {
-                    mapper.readValue(event.formattedMessage, Class.forName(logPayloadDataClassname))
-                }
+        val typeRef = object : TypeReference<Map<String, Any>>() {}
+        val contextMap = mutableMapOf<String, Any>("name" to event.loggerContextVO.name)
+
+        MDC.getCopyOfContextMap()?.forEach{ k, v ->
+            try {
+                contextMap.put(
+                    k,
+                    mapper.readValue<Map<String, String>>(
+                        v,
+                        typeRef
+                    )
+                )
+            }
+            catch (e: Exception) {
+                contextMap.put(k, v)
             }
 
-        map.replace(FORMATTED_MESSAGE_ATTR_NAME, message)
+        }
 
+        map.put(
+            CONTEXT_ATTR_NAME,
+            contextMap
+        )
+
+        try {
+            val jsonNode = mapper.readTree(event.message)
+            map.put(FORMATTED_MESSAGE_ATTR_NAME, jsonNode)
+        }
+        catch (exception: Exception){
+
+        }
+        finally {
+            if(event.marker != null) {
+                map.put(
+                    "marker",
+                    event.marker.name
+                )
+            }
+        }
     }
 
-    override fun doLayout(event: ILoggingEvent): String =
-
-        when(
-            Try{
-                mapper.readTree(event.formattedMessage)
-            }
-        ) {
-            is Success -> {super.doLayout(event)}
-            is Failure -> {event.formattedMessage}
-        }
 
 }

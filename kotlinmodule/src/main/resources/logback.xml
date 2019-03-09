@@ -3,9 +3,6 @@
         <encoder class="grant.guo.ideas.logging.DefaultAppenderEncoder">
             <pattern>[%level] %date{ISO8601} %msg%n</pattern>
             <layout class="grant.guo.ideas.logging.LogbackJsonLayout">
-                <!--<logPayloadDataClassname>grant.guo.ideas.logging.SampleLogEntity</logPayloadDataClassname>-->
-                <!--<logPayloadDataClassname>kotlin.collections.Map</logPayloadDataClassname>-->
-                <logPayloadDataClassname>java.util.Map</logPayloadDataClassname>
                 <jsonFormatter
                         class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
                     <prettyPrint>true</prettyPrint>
