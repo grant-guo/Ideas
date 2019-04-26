@@ -13,7 +13,7 @@ public class Application {
         assert (ret1 == ret2);
 
         MySingletonWithLazyInitialization singleton3 = MySingletonWithLazyInitialization.getInstance();
-        int ret3 = singleton2.function();
+        int ret3 = singleton3.function();
         assert (ret3 == 200);
     }
 }

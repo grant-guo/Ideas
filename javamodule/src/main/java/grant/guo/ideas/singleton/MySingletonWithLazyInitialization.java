@@ -4,10 +4,6 @@ public class MySingletonWithLazyInitialization {
 
     private int value = 0;
 
-    public static MySingletonWithLazyInitialization getInstance() {
-        return MySingletonInstanceHolder.instance;
-    }
-
     private MySingletonWithLazyInitialization() {
         value = 200;
     }
@@ -18,6 +14,10 @@ public class MySingletonWithLazyInitialization {
         private static MySingletonWithLazyInitialization createInstance() {
             return new MySingletonWithLazyInitialization();
         }
+    }
+
+    public static MySingletonWithLazyInitialization getInstance() {
+        return MySingletonInstanceHolder.instance;
     }
 
     public int function() {
