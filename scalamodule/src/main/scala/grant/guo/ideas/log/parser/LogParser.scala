@@ -112,9 +112,9 @@ class LogParserStateMachine {
     ret
   }
 
-  case class Context(key: StringBuffer, value: StringBuffer, cache: ListBuffer[(String, String, QUOTED)])
+  case class Context(key: StringBuilder, value: StringBuilder, cache: ListBuffer[(String, String, QUOTED)])
   object Context {
-    def newContext: Context = Context(new StringBuffer(), new StringBuffer(), ListBuffer.empty)
+    def newContext: Context = Context(new StringBuilder(), new StringBuilder(), ListBuffer.empty)
   }
 }
 
